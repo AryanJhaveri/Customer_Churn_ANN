@@ -44,6 +44,7 @@ st.markdown("""
         background-color: #2A2A2A;
         color: #FFFFFF;
         font-size: 18px;
+        width: 100%;
     }
     .stSlider>div>div {
         background-color: #2A2A2A;
@@ -55,9 +56,10 @@ st.markdown("""
         padding: 10px;
         border: 1px solid #FFFFFF;
         font-size: 18px;
+        width: 100%;
     }
     h1 {
-        color: #00A2FF;
+        color: #FFFFFF;
         font-family: 'Arial', sans-serif;
         font-weight: 900;
         text-align: center;
@@ -65,14 +67,16 @@ st.markdown("""
         margin-bottom: 20px;
     }
     .prediction-result {
-        font-size: 26px;
+        font-size: 36px;
         font-weight: 700;
-        color: #00A2FF;
+        color: #FFFFFF;
         margin-top: 20px;
+        text-align: center;
     }
     .probability-result {
-        font-size: 24px;
+        font-size: 32px;
         color: #FFD700;
+        text-align: center;
     }
     </style>
     """, unsafe_allow_html=True)
@@ -83,18 +87,18 @@ st.title('Customer Churn Prediction')
 col1, col2 = st.columns(2)
 
 with col1:
-    geography = st.selectbox('Geography', label_encoder_geo.categories_[0], help="Select the customer's country of residence.")
-    gender = st.selectbox('Gender', label_encoder_gender.classes_, help="Select the customer's gender.")
-    age = st.slider('Age', 18, 92, help="Select the customer's age.")
-    tenure = st.slider('Tenure', 0, 10, help="Number of years the customer has been with the bank.")
-    num_of_products = st.slider('Number of Products', 1, 4, help="Number of products the customer is using.")
+    geography = st.selectbox('Geography', label_encoder_geo.categories_[0], help="Select the customer's country of residence.", key="geography")
+    gender = st.selectbox('Gender', label_encoder_gender.classes_, help="Select the customer's gender.", key="gender")
+    age = st.slider('Age', 18, 92, help="Select the customer's age.", key="age")
+    tenure = st.slider('Tenure', 0, 10, help="Number of years the customer has been with the bank.", key="tenure")
+    num_of_products = st.slider('Number of Products', 1, 4, help="Number of products the customer is using.", key="num_of_products")
 
 with col2:
-    balance = st.number_input('Balance', help="Enter the customer's account balance.", format="%f", step=0.01)
-    credit_score = st.number_input('Credit Score', help="Enter the customer's credit score.", format="%f", step=0.01)
-    estimated_salary = st.number_input('Estimated Salary', help="Enter the customer's estimated salary.", format="%f", step=0.01)
-    has_cr_card = st.selectbox('Has Credit Card', [0, 1], help="Does the customer have a credit card?")
-    is_active_member = st.selectbox('Is Active Member', [0, 1], help="Is the customer an active member?")
+    balance = st.number_input('Balance', help="Enter the customer's account balance.", format="%f", step=0.01, key="balance")
+    credit_score = st.number_input('Credit Score', help="Enter the customer's credit score.", format="%f", step=0.01, key="credit_score")
+    estimated_salary = st.number_input('Estimated Salary', help="Enter the customer's estimated salary.", format="%f", step=0.01, key="estimated_salary")
+    has_cr_card = st.selectbox('Has Credit Card', [0, 1], help="Does the customer have a credit card?", key="has_cr_card")
+    is_active_member = st.selectbox('Is Active Member', [0, 1], help="Is the customer an active member?", key="is_active_member")
 
 # Prepare the input data
 input_data = pd.DataFrame({
