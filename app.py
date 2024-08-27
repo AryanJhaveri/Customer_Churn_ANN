@@ -18,7 +18,7 @@ with open('onehot_encoder_geography.pkl', 'rb') as f:
     label_encoder_geo = pickle.load(f)
 
 # Streamlit app
-st.set_page_config(page_title='Customer Churn Prediction', layout='wide', initial_sidebar_state='expanded')
+st.set_page_config(page_title='Customer Churn Prediction', layout='wide')
 
 # Custom CSS for better styling
 st.markdown("""
@@ -27,75 +27,74 @@ st.markdown("""
         background-color: #1E1E1E;
         color: #FFFFFF;
     }
-    .sidebar .sidebar-content {
-        background-color: #2E2E2E;
-    }
     .css-1v0mbdj {
         background-color: #1E1E1E;
     }
     .stButton>button {
         color: #FFFFFF;
-        background-color: #6200EA;
+        background-color: #007ACC;
         border-radius: 10px;
         font-size: 18px;
+        padding: 10px 20px;
     }
     .stNumberInput input {
         border-radius: 5px;
         border: 1px solid #FFFFFF;
-        padding: 5px;
-        background-color: #333333;
+        padding: 10px;
+        background-color: #2A2A2A;
         color: #FFFFFF;
+        font-size: 18px;
     }
     .stSlider>div>div {
-        background-color: #333333;
+        background-color: #2A2A2A;
     }
     .stSelectbox div {
-        background-color: #333333;
+        background-color: #2A2A2A;
         color: #FFFFFF;
         border-radius: 5px;
         padding: 10px;
         border: 1px solid #FFFFFF;
+        font-size: 18px;
     }
     h1 {
-        color: #BB86FC;
-        font-family: 'Roboto', sans-serif;
-        font-weight: 700;
+        color: #00A2FF;
+        font-family: 'Arial', sans-serif;
+        font-weight: 900;
         text-align: center;
+        font-size: 42px;
+        margin-bottom: 20px;
     }
     .prediction-result {
-        font-size: 24px;
-        font-weight: 600;
-        color: #BB86FC;
+        font-size: 26px;
+        font-weight: 700;
+        color: #00A2FF;
+        margin-top: 20px;
     }
     .probability-result {
-        font-size: 22px;
-        color: #03DAC5;
+        font-size: 24px;
+        color: #FFD700;
     }
     </style>
     """, unsafe_allow_html=True)
 
 st.title('Customer Churn Prediction')
 
-# Sidebar for navigation
-st.sidebar.title("Navigation")
-st.sidebar.write("Use the fields on the right to enter customer details and predict churn probability.")
-
 # Columns for better layout
 col1, col2 = st.columns(2)
 
 with col1:
-    geography = st.selectbox('Geography', label_encoder_geo.categories_[0])
-    gender = st.selectbox('Gender', label_encoder_gender.classes_)
-    age = st.slider('Age', 18, 92)
-    tenure = st.slider('Tenure', 0, 10)
-    num_of_products = st.slider('Number of Products', 1, 4)
+    geography = st.selectbox('Geography', label_encoder_geo.categories_[0], help="Select the customer's country of residence.")
+    gender = st.selectbox('Gender', label_encoder_gender.classes_, help="Select the customer's gender.")
+    age = st.slider('Age', 18, 92, help="Select the customer's age.")
+    tenure = st.slider('Tenure', 0, 10, help="Number of years the customer has been with the bank.")
+    num_of_products = st.slider('Number of Products', 1, 4, help="Number of products the customer is using.")
 
 with col2:
-    balance = st.number_input('Balance')
-    credit_score = st.number_input('Credit Score')
-    estimated_salary = st.number_input('Estimated Salary')
-    has_cr_card = st.selectbox('Has Credit Card', [0, 1])
-    is_active_member = st.selectbox('Is Active Member', [0, 1])
+    balance = st.number_input('Balance', help="Enter the customer's account balance.", format="%f", step=0.01)
+    credit_score = st.number_input('Credit Score', help="Enter the customer's credit score.", format="%f", step=0.01)
+    estimated_salary = st.number_input('Estimated Salary', help="Enter the customer's estimated salary.", format="%f", step=0.01)
+    has_cr_card = st.selectbox('Has Credit Card', [0, 1], help="Does the customer have a credit card?")
+    is_active_member = st.selectbox('Is Active Member', [0, 1], help="Is the customer an active member?")
 
 # Prepare the input data
 input_data = pd.DataFrame({
